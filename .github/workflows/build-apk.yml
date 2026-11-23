@@ -35,12 +35,20 @@ jobs:
         with:
           gradle-version: '8.2.1'
 
-      - name: Unzip source and build
+      - name: Inspect and build
         run: |
           mkdir -p project
           python3 -m zipfile -e AdDetector.zip project
-          cd project
-          gradle assembleDebug --no-daemon --stacktrace
+          echo "PWD=$(pwd)"
+          ls -la
+          ls -la project
+          ls -la project/app
+          echo "--- settings.gradle.kts ---"
+          cat project/settings.gradle.kts
+          echo "--- gradle projects ---"
+          gradle -p project projects --no-daemon --console=plain --stacktrace
+          echo "--- build app ---"
+          gradle -p project :app:assembleDebug --no-daemon --console=plain --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
