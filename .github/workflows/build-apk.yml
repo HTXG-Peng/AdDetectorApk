@@ -38,7 +38,7 @@ jobs:
       - name: Unzip source and build
         run: |
           mkdir -p project
-          unzip -q AdDetector.zip -d project
+          python3 -m zipfile -e AdDetector.zip project
           cd project
           gradle assembleDebug --no-daemon --stacktrace
 
